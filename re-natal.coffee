@@ -381,23 +381,12 @@ updateGitIgnore = (platforms) ->
 
   fs.appendFileSync(".gitignore", "\n# Figwheel\n#\nfigwheel_server.log")
 
-findPackagerFileToPatch = () ->
-  files = [
-    "node_modules/metro-bundler/src/Server/index.js",
-    "node_modules/metro-bundler/build/Server/index.js",
-    "node_modules/react-native/packager/src/Server/index.js"]
-  fileToPatch = files[0];
-  for f in files
-    if fs.existsSync(f)
-      fileToPatch = f
-  fileToPatch
-
 patchReactNativePackager = () ->
   installDeps()
-  fileToPatch = findPackagerFileToPatch()
+  fileToPatch = "node_modules/metro/src/Server/index.js"  
   log "Patching file #{fileToPatch} to serve *.map files."
   edit fileToPatch,
-    [[/match.*\.map\$\/\)/m, "match(/index\\..*\\.map$/)"]]
+    [[/match\(\/\\.map\$\/\)/m, "match(/index\\..*\\.map$/)"]]
   log "If the React Native packager is running, please restart it."
 
 shimCljsNamespace = (ns) ->
