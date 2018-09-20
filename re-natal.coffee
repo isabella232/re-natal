@@ -383,7 +383,7 @@ updateGitIgnore = (platforms) ->
 
 patchReactNativePackager = () ->
   installDeps()
-  fileToPatch = "node_modules/metro/src/Server/index.js"  
+  fileToPatch = "node_modules/metro/src/Server.js"  
   log "Patching file #{fileToPatch} to serve *.map files."
   edit fileToPatch,
     [[/match\(\/\\.map\$\/\)/m, "match(/index\\..*\\.map$/)"]]
